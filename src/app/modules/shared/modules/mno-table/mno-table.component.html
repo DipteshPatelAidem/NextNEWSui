@@ -1,0 +1,209 @@
+<p-table [columns]="columns" styleClass="p-datatable-gridlines"
+    [frozenColumns]="frozenCols && frozenCols.length ? frozenCols : undefined" 
+    [frozenWidth]="frozenWidth" #zircaTable
+    [value]="tableData" [totalRecords]="totalRecords" [dataKey]="dataKey" [rowHover]="false"
+    [paginator]="(tableData && tableData.length) !== 0 ? true : false" [lazy]="serverSide" [scrollable]='true'
+    [rows]="10" [rowsPerPageOptions]="rowsPerPageOptions" [resizableColumns]="resizableColumns" id="excel-table"
+    [style]="{'width':'100%','overflow':'auto!important'}" responsiveLayout="scroll" [reorderableColumns]="true"
+    [(first)]="first" [responsive]="true" [autoLayout]="true" (onLazyLoad)="onPaginateChange($event)"
+    (onRowSelect)="onRowSelectUnselect($event,'select')" (onRowUnselect)="onRowSelectUnselect($event,'unselect')"
+    (onHeaderCheckboxToggle)="headerCheckboxSelection($event)">
+
+
+    <ng-template pTemplate="paginatorleft" let-state>
+        <div class="paginator_description" *ngIf="(tableData && tableData.length) !== 0">Showing {{(state.page *
+            state.rows) +
+            1}} to {{(state.rows * (state.page + 1)) > totalRecords ? totalRecords : (state.rows * (state.page +
+            1))}} of {{state.totalRecords}} entries</div>
+    </ng-template>
+
+    <ng-container *ngIf="tableFilter">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right" *ngIf="tableFilter">
+                <input type="text" pInputText size="50" class="global_search" placeholder="Search..."
+                    (input)="onGlobalFilterChange()" style="width:auto">
+            </div>
+        </ng-template>
+    </ng-container>
+
+    <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <col>
+            <col *ngFor="let col of columns" [style.width]="col.width">
+            <col>
+        </colgroup>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <ng-container *ngIf="checkboxSelection">
+                <th style="width: 40px !important;" pResizableColumn>
+                    <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                    <input type="checkbox" [(ngModel)]="selectAll" [checked]="isAllCheckBoxChecked()"
+                        [ngModelOptions]="{standalone: true}" (change)="checkAllCheckBox($event);rowCheckBox()" />
+                </th>
+            </ng-container>
+
+            <th *ngIf="actionColumn?.columns && actionColumn?.columns.length" [ngStyle]="actionColumn?.styles">
+                {{actionColumn.header}}
+            </th>
+
+            <th *ngFor="let col of columns" pResizableColumn pSortableColumn="{{col.sortable ? col.field : null}}"
+                [style.width.px]="col.width">
+                {{col.header}}
+                <p-sortIcon *ngIf="col.sortable" [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+
+
+        </tr>
+
+        <tr *ngIf="columns && columns.length && columns[0] && columns[0].filterable">
+            <th *ngIf="checkboxSelection"></th>
+            <th *ngIf="actionColumn && actionColumn.columns && actionColumn.columns.length"></th>
+
+            <th *ngFor="let col of columns" [style.width.px]="col.width" style="padding: 8px;">
+                <ng-container *ngIf="col.filterable">
+
+                    <input autocomplete="off" *ngIf="col.filterType == 'text' || col.filterType == 'number'"
+                        class="form-control filter-text-input" style="border-radius: 6px;" [(ngModel)]="col.value"
+                        placeholder="Search {{col.header}}" [type]="col.filterType"
+                        (input)="serverSide ? onColumnFilterChange() : onLocalColumnFilterChange({key : col.field,value:col.value})">
+
+                    <ng-select *ngIf="col.filterType == 'select'" [items]="col.filterOptions" bindLabel="name"
+                        [(ngModel)]="col.value" bindValue="id" placeholder="Search {{col.header}}"
+                        [virtualScroll]="true" [searchable]="true" typeToSearchText="Type to search"
+                        (change)="serverSide ? onColumnFilterChange() : onLocalColumnFilterChange({key : col.field,value:col.value})"
+                        [closeOnSelect]="true" [appendTo]="'body'" class="zirca-p-table-select filter-text-input">
+                    </ng-select>
+                </ng-container>
+            </th>
+
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-data let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pReorderableRow]="rowIndex" [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+
+            <td *ngIf="checkboxSelection">
+                <div class="text-center">
+                    <input type="checkbox" [(ngModel)]="rowData.checked" [ngModelOptions]="{standalone: true}"
+                        (change)="rowCheckBox()" />
+                    <!-- <p-tableCheckbox [value]="rowData" [index]="rowIndex"></p-tableCheckbox> -->
+                </div>
+            </td>
+
+            <td *ngIf="actionColumn && actionColumn?.columns && actionColumn.columns.length"
+                [ngStyle]="actionColumn && actionColumn.styles">
+
+                <div class="d-flex w-100 justify-content-center p-table-action-btn">
+                    <ng-container *ngFor="let action of actionColumn.columns;let last = last">
+                        <ng-container *ngIf="action.conditional ? action.show && action.show(rowData) : action.show">
+
+                            <button type="button" *ngIf="action.header === 'Approve'"
+                                class="btn btn-outline-primary mx-1" (click)="onActionBtnClick(action,rowData)"
+                                title="{{action.header}}">{{action.header}}</button>
+
+                            <button type="button" *ngIf="action.header === 'Reject'" class="btn btn-outline-danger"
+                                (click)="onActionBtnClick(action,rowData)"
+                                title="{{action.header}}">{{action.header}}</button>
+
+                            <a *ngIf="action.header !== 'Approve' && action.header !== 'Reject'"
+                                class="btn-sm cursor-pointer action-icon-border" [class.m-0]="last" name="action"
+                                (click)="onActionBtnClick(action,rowData)" title="{{action.header}}">
+
+                                <i *ngIf="action.header === 'View'" class="fa fa-eye" title="{{action.header}}"></i>
+
+                                <i *ngIf="action.header === 'Edit'" class="bi bi-pencil" title="{{action.header}}">
+                                    <svg fill="#000000" style="    width: 15px;" version="1.1" id="Capa_1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="800px" height="800px" viewBox="0 0 528.899 528.899" xml:space="preserve">
+                                        <g>
+                                            <path d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981
+                                            c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611
+                                            C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069
+                                            L27.473,390.597L0.3,512.69z" />
+                                        </g>
+                                    </svg>
+                                </i>
+
+                                <i *ngIf="action.header === 'Delete'" class="bi bi-trash" title="{{action.header}}"></i>
+                                <i *ngIf="action.header === 'Download'" class="fa fa-download"
+                                    title="{{action.header}}"></i>
+
+                                <span *ngIf="action.header === 'Status'">
+                                    <i *ngIf="!rowData[action.statusKey]" class="bi bi-check-lg text-success"
+                                        title="{{rowData?.status}}"></i>
+                                    <i *ngIf="rowData[action.statusKey]" class="bi bi-x-lg text-danger"
+                                        title="{{rowData?.status}}"></i>
+                                </span>
+                            </a>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td *ngFor="let col of columns" [style.width.px]="col.width" [class.truncate]="col.truncate"
+                (click)="col && col?.click && col?.click(rowData)">
+
+                <div *ngIf="!col.statusColumn && !col.image && !col.dateFormat" class="w-100"
+                    [style.width.px]="col.width" [ngStyle]="col?.styles" [innerHtml]="col && col?.cellRenderer ? 
+                    col?.cellRenderer(rowData) : 
+                    rowData[col.field] | safe: 'html'">
+                </div>
+
+                <div *ngIf="col.image">
+                    <img src="{{rowData[col.field]}}" style="height: 60px; width: 60px;" />
+                </div>
+
+                <div *ngIf="col.dateFormat">
+                    {{rowData[col.field] | TimezoneDateTime:col.dateFormat}}
+                </div>
+
+                <div *ngIf="col.statusColumn" class="w-100" [innerHtml]="col &&  
+                    rowData[col.field] ? 'Active' : 'Inactive' | safe: 'html'">
+                </div>
+
+            </td>
+
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr *ngIf="!totalRecords">
+            <td [attr.colspan]="columns.length + 1">
+                <div class="container py-2">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h5>No records found.</h5>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+
+<p-dialog header="Are you sure?" [(visible)]="displayDeleteModal" [modal]="true" [style]="{width: '30vw'}"
+    [draggable]="false" [resizable]="false">
+
+    <section class="section profile">
+        <div class="row ng-star-inserted">
+            <div class="col col-md-12 justify-content-center d-flex">
+                <i class="bi bi-trash display-6 text-danger"></i>
+            </div>
+        </div>
+        <div class="row text-center">
+            <h5>You want to delete this record.</h5>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary m-3" (click)="displayDeleteModal = false">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" (click)="onDeleteRecord()">Submit
+            </button>
+        </div>
+    </section>
+</p-dialog>

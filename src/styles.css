@@ -1,0 +1,422 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* You can add global styles to this file, and also import other style files */
+body {
+    background: #eef0f8;
+    font-family: Poppins, Helvetica, "sans-serif";
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+.font-weight-bold {
+    font-weight: bold !important;
+}
+
+ng-select {
+    border-radius: 6px;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+    height: 100% !important;
+    border: 1px solid #e4e6ef !important;
+}
+.ng-select-container {
+    border: 1px solid #e4e6ef !important;
+    border-radius: 6px !important;
+    height: 100% !important;
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+    top: auto !important;
+    padding-bottom: 4px !important;
+}
+
+.card.card-custom {
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border: 0;
+}
+.card.card-custom > .card-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    min-height: 70px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: transparent;
+}
+.card.card-custom > .card-header .card-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0.5rem;
+    margin-left: 0;
+}
+.card.card-custom > .card-header .card-title .card-icon {
+    margin-right: 0.75rem;
+    line-height: 0;
+}
+.card.card-custom > .card-header .card-title .card-icon i {
+    font-size: 1.25rem;
+    color: #7e8299;
+    line-height: 0;
+}
+.card.card-custom > .card-header .card-title .card-icon i:after,
+.card.card-custom > .card-header .card-title .card-icon i:before {
+    line-height: 0;
+}
+.card.card-custom > .card-header .card-title .card-icon .svg-icon svg {
+    height: 24px;
+    width: 24px;
+}
+.card.card-custom > .card-header .card-title .card-icon .svg-icon svg g [fill] {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease;
+    fill: #7e8299;
+}
+.card.card-custom > .card-header .card-title .card-icon .svg-icon svg:hover g [fill] {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease;
+}
+.card.card-custom > .card-header .card-title,
+.card.card-custom > .card-header .card-title .card-label {
+    font-weight: 500;
+    font-size: 1.275rem;
+    color: #181c32;
+}
+.card.card-custom > .card-header .card-title .card-label {
+    margin: 0 0.75rem 0 0;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.card.card-custom > .card-header .card-title small {
+    color: #b5b5c3;
+    font-size: 1rem;
+}
+.card.card-custom > .card-header .card-toolbar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0.5rem 0;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.card.card-custom > .card-header.card-header-tabs-line {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+.card.card-custom > .card-header.card-header-tabs-line .card-toolbar {
+    margin: 0;
+}
+.card.card-custom > .card-header.card-header-tabs-line .nav {
+    border-bottom-color: transparent;
+}
+.card.card-custom > .card-header.card-header-tabs-line .nav .nav-item {
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+.card.card-custom > .card-header.card-header-tabs-line .nav .nav-link {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.card.card-custom > .card-header.card-header-right {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+.card.card-custom > .card-body {
+    padding: 2rem 2.25rem;
+}
+.card.card-custom > .card-footer {
+    background-color: transparent;
+}
+.card.card-custom .card-scroll {
+    position: relative;
+    overflow: auto;
+}
+.card.card-custom.card-stretch {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch !important;
+    -ms-flex-align: stretch !important;
+    align-items: stretch !important;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+}
+.card.card-custom.card-stretch.gutter-b {
+    height: calc(100% - 30px);
+}
+.card.card-custom.card-stretch.card-stretch-half {
+    height: 50%;
+}
+.card.card-custom.card-stretch.card-stretch-half.gutter-b {
+    height: calc(50% - 30px);
+}
+.card.card-custom.card-stretch.card-stretch-third {
+    height: 33.33%;
+}
+.card.card-custom.card-stretch.card-stretch-third.gutter-b {
+    height: calc(33.33% - 30px);
+}
+.card.card-custom.card-stretch.card-stretch-fourth {
+    height: 25%;
+}
+.card.card-custom.card-stretch.card-stretch-fourth.gutter-b {
+    height: calc(25% - 30px);
+}
+.card.card-custom.card-fit > .card-header {
+    border-bottom: 0;
+}
+.card.card-custom.card-fit > .card-footer {
+    border-top: 0;
+}
+.card.card-custom.card-space {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+}
+.card.card-custom.card-space > .card-header {
+    padding-left: 0;
+    padding-right: 0;
+}
+.card.card-custom.card-space > form > .card-body,
+.card.card-custom.card-space > .card-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+.card.card-custom.card-space > form > .card-footer,
+.card.card-custom.card-space > .card-footer {
+    padding-left: 0;
+    padding-right: 0;
+}
+.card.card-custom.card-sticky > .card-header {
+    -webkit-transition: left 0.3s, right 0.3s, height 0.3s;
+    transition: left 0.3s, right 0.3s, height 0.3s;
+    min-height: 70px;
+}
+.card-sticky-on .card.card-custom.card-sticky > .card-header {
+    -webkit-transition: left 0.3s, right 0.3s, height 0.3s;
+    transition: left 0.3s, right 0.3s, height 0.3s;
+    position: fixed;
+    -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+    z-index: 101;
+    background: #ffffff;
+}
+.card.card-custom.card-transparent {
+    background-color: transparent;
+}
+.card.card-custom.card-shadowless {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.card.card-custom.card-px-0 .card-header,
+.card.card-custom.card-px-0 .card-body,
+.card.card-custom.card-px-0 .card-footer {
+    padding-left: 0;
+    padding-right: 0;
+}
+.card.card-custom.card-border {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #ebedf3;
+}
+.card.card-custom.card-collapsed > form,
+.card.card-custom.card-collapsed > .card-body {
+    display: none;
+}
+.card.card-custom .card-header .card-toolbar [data-card-tool="toggle"] i {
+    -webkit-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+}
+.card.card-custom.card-collapsed .card-header .card-toolbar [data-card-tool="toggle"] i,
+.card.card-custom.card-collapse .card-header .card-toolbar [data-card-tool="toggle"] i {
+    -webkit-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.card-spacer {
+    padding: 2rem 2.25rem !important;
+}
+
+.card-spacer-x {
+    padding-left: 2.25rem !important;
+    padding-right: 2.25rem !important;
+}
+
+.card-spacer-y {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.card-rounded {
+    border-radius: 0.42rem;
+}
+
+.card-rounded-top {
+    border-top-left-radius: 0.42rem;
+    border-top-right-radius: 0.42rem;
+}
+
+.card-rounded-bottom {
+    border-bottom-left-radius: 0.42rem;
+    border-bottom-right-radius: 0.42rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+.font-size-lg {
+    font-size: 1.08rem;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #3f4254;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #e4e6ef;
+    border-radius: 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.col-form-label {
+    padding-top: calc(0.65rem + 1px);
+    padding-bottom: calc(0.65rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}
+
+.btn.btn-success {
+    color: #ffffff;
+    background-color: #1bc5bd;
+    border-color: #1bc5bd;
+}
+
+.btn.btn-outline-success {
+    color: #1bc5bd;
+    border-color: #1bc5bd;
+}
+
+.btn-outline-success:hover{
+    background-color: #1bc5bd12 !important;
+}
+
+.btn {
+    outline: none !important;
+    vertical-align: middle;
+    -webkit-transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease,
+        -webkit-box-shadow 0.15s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, -webkit-box-shadow 0.15s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
+        -webkit-box-shadow 0.15s ease;
+}
+
+.btn.btn-secondary:hover:not(.btn-text):not(:disabled):not(.disabled),
+.btn.btn-secondary:focus:not(.btn-text),
+.btn.btn-secondary.focus:not(.btn-text) {
+    color: #3f4254;
+    background-color: #d7dae7;
+    border-color: #d7dae7;
+}
+
+.title-colap {
+    background: #eef0f8;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
+.input-error {
+    border: 1px solid red;
+}
+
+.show-less {
+    font-size: 16px;
+    line-height: 16px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.show-more {
+    overflow: visible;
+    height: auto;
+}
+
+.p-datatable .p-datatable-tbody > tr > td{
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.p-dialog-content{
+    padding-bottom: 5px !important;
+}
+
+.font-12{
+    font-size: 12px;
+}
+
+.ng-option-marked{
+    background-color: #dde1e5 !important; 
+}
+
+.p-toast-message-content{
+    padding: 10px !important;
+}
+
+.p-toast-detail{
+    margin: 0 !important; 
+}
+
+.p-dialog .p-dialog-header{
+    border-bottom: 1px solid lightgray !important;
+    padding: 0.71rem !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
+    white-space: normal !important;
+    border-bottom: 1px solid #ededed !important;
+}
+
+.ng-option-disabled{
+    text-align: center;
+}

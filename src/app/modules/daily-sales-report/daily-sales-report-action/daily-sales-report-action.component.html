@@ -1,0 +1,354 @@
+<p-toast></p-toast>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b example example-compact">
+                <div class="card-header text-center align-items-center">
+                    <div class="cursor-pointer" (click)="onDsrCancel()">
+                        <img src="https://cdn-icons-png.flaticon.com/512/93/93634.png" style="
+                        width: 20px;
+                    "> Go to list
+                    </div>
+                    <h4 class="text-center card-title">
+                        Daily Meeting Report
+                    </h4>
+                    <div class="card-toolbar">
+                        <div class="example-tools justify-content-center">
+                            <span class="example-toggle" data-toggle="tooltip" title=""
+                                data-original-title="View code"></span>
+                            <span class="example-copy" data-toggle="tooltip" title=""
+                                data-original-title="Copy code"></span>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="form" [formGroup]="dsrForm">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Business / Channel <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-9">
+                                        <ng-select [items]="channelList" bindLabel="ChannelName" bindValue="ChannelCode"
+                                            [ngClass]="{'input-error': dsrForm?.get('ChannelCode').touched && dsrForm?.get('ChannelCode').errors?.required}"
+                                            formControlName="ChannelCode" tabindex="0" placeholder="Please select">
+                                        </ng-select>
+                                        <!-- <span class="form-text text-muted ">Please enter Business / Channel</span> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <h3 class="text-center font-size-lg text-dark font-weight-bold mb-6 title-colap">
+                                    Meeting Details
+                                </h3>
+                            </div>
+
+                            <div class="col-lg-6">
+
+                                <div class="mb-15 mx-2">
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Date of Meeting <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <input type="date" class="form-control"
+                                                [ngClass]="{'input-error':dsrForm?.get('VisitDate').touched && dsrForm?.get('VisitDate').errors?.required}"
+                                                placeholder="Please Select" formControlName="VisitDate"
+                                                value="{{dsrForm?.get('VisitDate').value}}">
+                                            <span class="form-text text-muted ">Format: DD-MM-YYYY</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Purpose <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+
+                                            <ng-select [items]="purposeList" bindLabel="GenericName"
+                                                bindValue="GenericID"
+                                                [ngClass]="{'input-error': dsrForm?.get('PurposeID').touched && dsrForm?.get('PurposeID').errors?.required}"
+                                                formControlName="PurposeID" placeholder="Please select">
+                                            </ng-select>
+
+                                            <span class="form-text text-muted ">ex: Follow Up</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Meeting Type <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="meetingTypeList" bindLabel="GenericName"
+                                                bindValue="GenericID"
+                                                [ngClass]="{'input-error': dsrForm?.get('MeetingTypeID').touched && dsrForm?.get('MeetingTypeID').errors?.required}"
+                                                formControlName="MeetingTypeID" placeholder="Please select">
+                                            </ng-select>
+
+                                            <span class="form-text text-muted ">ex: In-person</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <!-- <h3 class="font-size-lg text-dark font-weight-bold mb-6 title-colap">
+                                    Attendee Details
+                                </h3> -->
+                                <div class="mb-3 mx-2">
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Name / Affiliation<span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="people$ | async" bindLabel="PersonName2"
+                                                bindValue="PersonCode" [minTermLength]="2" [loading]="peopleLoading"
+                                                [placeholder]="'Please select'"
+                                                typeToSearchText="Please enter 3 or more characters"
+                                                [typeahead]="peopleInput$" formControlName="PersonCode"
+                                                [clearSearchOnAdd]="true" [clearable]="true"
+                                                (open)="onPeopleDropdownOpen()" (clear)="onRemovePeople()"
+                                                (change)="onAffiliationChange()"
+                                                [ngClass]="{'input-error':dsrForm?.get('PersonCode').touched && dsrForm?.get('PersonCode').errors?.required}">
+                                                <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                                                    <div class="ng-option text-center" *ngIf="enableAddNewPeople">
+                                                        <span>
+                                                            No data found for <b>"{{searchTerm}}"</b>. Do you want to
+                                                            create new?
+                                                        </span>
+                                                        <br />
+                                                        <button class="btn btn-primary btn-sm mt-1"
+                                                            (click)="addNewPerson()">Create New
+                                                        </button>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                    <div *ngIf="item.PersonName2 != 'newItem'"> {{item.PersonName2}}
+                                                    </div>
+                                                    <button *ngIf="item.PersonName2 == 'newItem'"
+                                                        class="btn btn-primary btn-sm mt-1"
+                                                        (click)="addNewPerson()">Create New
+                                                    </button>
+                                                </ng-template>
+
+                                            </ng-select>
+                                            <span class="form-text text-muted ">&nbsp;</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="form-group row">
+                                        <label class="d-block col-form-label">Agency <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="agencyList" bindLabel="AgencyName"
+                                                bindValue="AgencyCode" [virtualScroll]="true"
+                                                [ngClass]="{'input-error': dsrForm?.get('AgencyCode').touched && dsrForm?.get('AgencyCode').errors?.required}"
+                                                formControlName="AgencyCode" placeholder="Please select">
+                                            </ng-select>
+                                            <span class="form-text text-muted ">&nbsp;</span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Company Affiliation (Advertiser) <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="advertiserList" bindLabel="AdvertiserName"
+                                                bindValue="AdvertiserCode" [virtualScroll]="true"
+                                                [ngClass]="{'input-error': dsrForm?.get('AdvertiserCode').touched && dsrForm?.get('AdvertiserCode').errors?.required}"
+                                                formControlName="AdvertiserCode" placeholder="Please select">
+                                            </ng-select>
+                                            <span class="form-text text-muted ">&nbsp;</span>
+                                        </div>
+                                    </div>
+                                     --> 
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Brand</label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="brandList" bindLabel="BrandName" bindValue="BrandCode"
+                                                [virtualScroll]="true" [multiple]="true"
+                                                [ngClass]="{'input-error': dsrForm?.get('BrandCodes').touched && dsrForm?.get('BrandCodes').errors?.required}"
+                                                formControlName="BrandCodes" placeholder="Please select">
+                                            </ng-select>
+
+                                            <span class="form-text text-muted ">&nbsp;</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Accompanied By</label>
+                                        <div class="col-lg-12">
+
+                                            <ng-select [items]="accompaniedByList" bindLabel="UserName"
+                                                bindValue="UserCode" [multiple]="true"
+                                                [ngClass]="{'input-error': dsrForm?.get('AccompaniedByCodes').touched && dsrForm?.get('AccompaniedByCodes').errors?.required}"
+                                                formControlName="AccompaniedByCodes" placeholder="Please select">
+                                            </ng-select>
+
+                                            <span class="form-text text-muted ">&nbsp;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <h3 class="text-center font-size-lg text-dark font-weight-bold mb-6 title-colap">
+                                    Meeting Information
+                                </h3>
+                                <div class="mb-3 mx-2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group row">
+                                                <label class="d-block col-form-label">Meeting Feedback <span
+                                                        class="text-danger">*</span></label>
+                                                <div class="col-lg-12">
+                                                    <textarea row="5" class="form-control" style="height: auto;"
+                                                        [ngClass]="{'input-error':dsrForm?.get('MeetingFeedback').touched && dsrForm?.get('MeetingFeedback').errors?.required}"
+                                                        placeholder="Please enter meeting feedback"
+                                                        formControlName="MeetingFeedback"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="d-block col-form-label">Proposal Value</label>
+                                                <div class="col-lg-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text" style="font-family: initial;
+                                                            height: 36px;">Rs.</div>
+                                                        </div>
+                                                        <input type="text" class="form-control"
+                                                            [ngClass]="{'input-error':dsrForm?.get('ProposalValue').touched && dsrForm?.get('ProposalValue').errors?.required}"
+                                                            placeholder="Please enter proposal value"
+                                                            formControlName="ProposalValue" numeric decimals="4">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+
+                                            <div class="form-group row align-items-center">
+                                                <label class="d-block col-form-label">Action Items</label>
+                                                <div class="col-lg-6"
+                                                    *ngFor="let action of furtherActionList; let i = index">
+
+                                                    <div class="custom-control custom-radio">
+
+                                                        <!-- Radio Button Input -->
+                                                        <input id="radio-{{i}}" type="radio"
+                                                            (change)="onActionItemChange()" class="custom-control-input"
+                                                            [value]="action.ActionName" formControlName="ActionName">
+                                                        <!-- Radio Button Label -->
+                                                        <label class="custom-control-label mx-2" for="radio-{{i}}">
+                                                            {{action.ActionName}}</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row"
+                                                *ngIf="dsrForm.get('ActionName').value == 'Other'">
+                                                <div class="col-lg-12">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                            [ngClass]="{'input-error':dsrForm?.get('actionOther').touched && dsrForm?.get('actionOther').errors?.required}"
+                                                            placeholder="Enter Other action"
+                                                            formControlName="actionOther">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-center bg-light">
+                        <button type="submit" (click)="onDsrSave()" class="btn btn-success mx-2">{{visitCode ? 'Update'
+                            : 'Submit'}}</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="onDsrCancel()">Cancel</button>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="'Add new Person'" [(visible)]="openNewPersonAddModal" [modal]="true" [style]="{width: '30vw'}"
+    [draggable]="false" [resizable]="false">
+
+    <section class="section persone_add" id="bookingDetails">
+        <div class="card1">
+            <div class="card-body p-0">
+                <div class="container mb-0 mt-1 p-0">
+                    <form class="form" [formGroup]="newPersonForm">
+                        <div class="form-group row">
+
+                            <div class="col-12">
+                                <label class="d-block col-form-label">Person Name<span
+                                        class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <select class="title-dropdown" formControlName="intTitlePersonCode">
+                                            <option *ngFor="let a of titlePersonCode" value="{{a.GenericID}}">
+                                                {{a.GenericName}}</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Enter Person Name"
+                                        [ngClass]="{'input-error':newPersonForm?.get('PersonName').touched && newPersonForm?.get('PersonName').errors?.required}"
+                                        formControlName="PersonName">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="d-block col-form-label">Contact Of<span
+                                        class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-lg-6" *ngFor="let action of contactForList; let i = index">
+
+                                        <div class="custom-control custom-radio cursor-pointer">
+
+                                            <!-- Radio Button Input -->
+                                            <input id="radio-{{action.label}}" type="radio" class="custom-control-input"
+                                                [value]="action.code" formControlName="strContactFor"
+                                                (change)="onContactOfChange()">
+                                            <!-- Radio Button Label -->
+                                            <label class="custom-control-label mx-2" for="radio-{{action.label}}">
+                                                {{action.label}}</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="d-block col-form-label">{{newPersonForm.get('strContactFor').value == 'A'
+                                    ? 'Advertiser' : 'Agency'}}<span class="text-danger">*</span></label>
+                                <ng-select [items]="contactOfList" bindLabel="name" bindValue="code"
+                                    [virtualScroll]="true" formControlName="intContactForCode"
+                                    appendTo=".p-dialog-content"
+                                    [ngClass]="{'input-error':newPersonForm?.get('intContactForCode').touched && newPersonForm?.get('intContactForCode').errors?.required}"
+                                    placeholder="Please select">
+                                </ng-select>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer text-center bg-light">
+                            <button type="submit" [disabled]="!newPersonForm.valid" (click)="onNewPersonSave()"
+                                class="btn btn-success mx-2">Save</button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                (click)="openNewPersonAddModal = false">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</p-dialog>
