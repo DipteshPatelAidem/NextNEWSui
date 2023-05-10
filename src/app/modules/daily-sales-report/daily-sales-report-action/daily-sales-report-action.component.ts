@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, concat, of, distinctUntilChanged, debounceTime, tap, switchMap, catchError } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
 import { DSRService } from 'src/app/services/dsr.service';
 import { DropDownConfig } from './dsr-dropdown-config';
 import { MessageService } from 'primeng/api';
@@ -56,7 +55,6 @@ export class DailySalesReportActionComponent {
     public fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public dataService: DataService,
     public dsrService: DSRService,
     private toastService: MessageService,
     private _loaderService: LoaderService) {

@@ -420,3 +420,7 @@ ng-select {
 .ng-option-disabled{
     text-align: center;
 }
+
+.form-control:focus{
+    box-shadow: none !important;
+}

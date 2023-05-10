@@ -1,0 +1,169 @@
+<p-toast></p-toast>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b example example-compact">
+                <div class="card-header text-center align-items-center">
+                    <div class="cursor-pointer" (click)="onUcnCancel()">
+                        <img src="https://cdn-icons-png.flaticon.com/512/93/93634.png" style="
+                        width: 20px;
+                    "> Go to list
+                    </div>
+                    <h4 class="text-center card-title">
+                        UCN
+                    </h4>
+                    <div class="card-toolbar">
+                        <div class="example-tools justify-content-center">
+                            <span class="example-toggle" data-toggle="tooltip" title=""
+                                data-original-title="View code"></span>
+                            <span class="example-copy" data-toggle="tooltip" title=""
+                                data-original-title="Copy code"></span>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="form" [formGroup]="ucnForm">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">Brand <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+                                        <ng-select [items]="brandList" bindLabel="Brand" bindValue="Brand"
+                                            [ngClass]="{'input-error': ucnForm?.get('brandCode').touched && ucnForm?.get('brandCode').errors?.required}"
+                                            formControlName="brandCode" tabindex="0" placeholder="Please select" 
+                                            (change)="onFormValueChange()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="mb-15 mx-2">
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Caption <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <input type="text" class="form-control"
+                                                [ngClass]="{'input-error':ucnForm?.get('caption').touched && ucnForm?.get('caption').errors?.required}"
+                                                placeholder="Please Enter" formControlName="caption"
+                                                value="{{ucnForm?.get('caption').value}}" (change)="onFormValueChange()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">Duration <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+
+                                        <ng-select [items]="durationList" bindLabel="Duration"
+                                            bindValue="Duration"
+                                            [ngClass]="{'input-error': ucnForm?.get('DurationID').touched && ucnForm?.get('DurationID').errors?.required}"
+                                            formControlName="DurationID" placeholder="Please select" (change)="onFormValueChange()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">Language <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+                                        <ng-select [items]="languageList" bindLabel="Language" bindValue="Language"
+                                            [ngClass]="{'input-error': ucnForm?.get('LanguageID').touched && ucnForm?.get('LanguageID').errors?.required}"
+                                            formControlName="LanguageID" placeholder="Please select" (change)="onFormValueChange()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3 mx-2">
+
+                                    <div class="form-group row">
+                                        <label class="d-block col-form-label">Platform <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-12">
+                                            <ng-select [items]="platformList" bindLabel="Platform"
+                                                bindValue="PlatformID" [virtualScroll]="true" [multiple]="false"
+                                                [ngClass]="{'input-error': ucnForm?.get('PlatformCode').touched && ucnForm?.get('PlatformCode').errors?.required}"
+                                                formControlName="PlatformCode" placeholder="Please select"
+                                                (change)="orFormatChange();onFormValueChange()">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">Format <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+
+                                        <ng-select [items]="formatList" bindLabel="Format" bindValue="Format"
+                                            [multiple]="false"
+                                            [ngClass]="{'input-error': ucnForm?.get('FormatCode').touched && ucnForm?.get('FormatCode').errors?.required}"
+                                            formControlName="FormatCode" placeholder="Please select" (change)="onFormValueChange()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">Ratio </label>
+                                    <div class="col-lg-12">
+
+                                        <ng-select [items]="ratioList" bindLabel="Ratio" bindValue="Ratio"
+                                            [multiple]="false"
+                                            [ngClass]="{'input-error': ucnForm?.get('ratio').touched && ucnForm?.get('ratio').errors?.required}"
+                                            formControlName="ratio" placeholder="Please select">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="d-block col-form-label">UCN Code</label>
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <button class="btn btn-outline-secondary btn-copy" type="button"
+                                                title="Copy to Clipboard" [disabled]="!ucnForm?.get('UcnCode')?.value" 
+                                                (click)="onCopyToClipboard()">
+                                                {{isCopy ? 'Copied' : 'Copy'}} 
+                                            </button>
+                                        </span>
+                                        <input type="text" class="form-control" 
+                                        readonly formControlName="UcnCode"
+                                            placeholder="UCN Code" id="copy-input">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer text-center bg-light">
+                        <button type="submit" [disabled]="!ucnForm.valid" (click)="onUcnSave()"
+                            class="btn btn-success mx-2">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="onUcnCancel()">Cancel</button>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
