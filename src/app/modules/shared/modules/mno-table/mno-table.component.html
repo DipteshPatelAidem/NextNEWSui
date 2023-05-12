@@ -1,6 +1,5 @@
 <p-table [columns]="columns" styleClass="p-datatable-gridlines"
-    [frozenColumns]="frozenCols && frozenCols.length ? frozenCols : undefined" 
-    [frozenWidth]="frozenWidth" #zircaTable
+    [frozenColumns]="frozenCols && frozenCols.length ? frozenCols : undefined" [frozenWidth]="frozenWidth" #zircaTable
     [value]="tableData" [totalRecords]="totalRecords" [dataKey]="dataKey" [rowHover]="false"
     [paginator]="(tableData && tableData.length) !== 0 ? true : false" [lazy]="serverSide" [scrollable]='true'
     [rows]="10" [rowsPerPageOptions]="rowsPerPageOptions" [resizableColumns]="resizableColumns" id="excel-table"
@@ -147,10 +146,26 @@
             <td *ngFor="let col of columns" [style.width.px]="col.width" [class.truncate]="col.truncate"
                 (click)="col && col?.click && col?.click(rowData)">
 
+                <p-overlayPanel #op  appendTo="body">
+                    <ng-template pTemplate="content">
+                        <span class="copy-popover">Copied</span>
+                    </ng-template>
+                </p-overlayPanel>
+
                 <div *ngIf="!col.statusColumn && !col.image && !col.dateFormat" class="w-100"
-                    [style.width.px]="col.width" [ngStyle]="col?.styles" [innerHtml]="col && col?.cellRenderer ? 
+                    [style.width.px]="col.width" [ngStyle]="col?.styles">
+                    <span class="copy-icon" *ngIf="col.copyIcon"
+                        (click)="onCopyToClipboard(rowData,rowData[col.field]);op.toggle($event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" focusable="false"
+                            aria-hidden="true">
+                            <path class="stroke-linejoin-round" d="M2 5h9v9H2z"></path>
+                            <path class="stroke-linejoin-round" d="M5 5V2h9v9h-3"></path>
+                        </svg>
+                    </span>
+
+                    <span [innerHtml]="col && col?.cellRenderer ? 
                     col?.cellRenderer(rowData) : 
-                    rowData[col.field] | safe: 'html'">
+                    rowData[col.field] | safe: 'html'"></span>
                 </div>
 
                 <div *ngIf="col.image">

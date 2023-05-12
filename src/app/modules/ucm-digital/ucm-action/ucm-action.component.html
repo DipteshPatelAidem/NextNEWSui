@@ -10,7 +10,7 @@
                     "> Go to list
                     </div>
                     <h4 class="text-center card-title">
-                        UCN
+                        Generate Unique Code Number
                     </h4>
                     <div class="card-toolbar">
                         <div class="example-tools justify-content-center">
@@ -139,13 +139,13 @@
                                     <div class="input-group">
                                         <span class="input-group-prepend">
                                             <button class="btn btn-outline-secondary btn-copy" type="button"
-                                                title="Copy to Clipboard" [disabled]="!ucnForm?.get('UcnCode')?.value" 
+                                                title="Copy to Clipboard" [disabled]="!generatedUcnCode?.value" 
                                                 (click)="onCopyToClipboard()">
                                                 {{isCopy ? 'Copied' : 'Copy'}} 
                                             </button>
                                         </span>
                                         <input type="text" class="form-control" 
-                                        readonly formControlName="UcnCode"
+                                        readonly [formControl]="generatedUcnCode"
                                             placeholder="UCN Code" id="copy-input">
                                     </div>
                                 </div>

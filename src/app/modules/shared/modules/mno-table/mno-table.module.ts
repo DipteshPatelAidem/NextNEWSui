@@ -8,7 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DialogModule } from 'primeng/dialog';
 import { SafePipe } from './pipe/safe.pipe';
 import { TimezoneDateTime } from './pipe/date-time';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
     declarations: [
         MnoTableComponent,
@@ -21,7 +21,8 @@ import { TimezoneDateTime } from './pipe/date-time';
         TableModule,
         // ResponsiveScrollModule,
         NgSelectModule,
-        DialogModule
+        DialogModule,
+        OverlayPanelModule
     ],
     providers: [],
     exports: [

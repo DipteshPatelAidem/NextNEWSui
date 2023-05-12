@@ -35,4 +35,8 @@ export class UCNService {
     getRatio(){
         return this.http.get<any>(environment.baseURL + API_URL.getUcnRatio).pipe(map(rsp => rsp));
     }
+
+    getAllUCN(uCode){
+        return this.http.get<any>(environment.baseURL + API_URL.getUcnRatio).pipe(map(rsp => rsp));
+    }
 }

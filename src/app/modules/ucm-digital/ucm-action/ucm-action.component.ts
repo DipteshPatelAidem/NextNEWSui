@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/loader.service';
@@ -13,6 +13,7 @@ import { UCNService } from 'src/app/services/ucn.service';
 })
 export class UcmActionComponent {
   ucnForm: FormGroup;
+  generatedUcnCode = new FormControl('HELLO', [Validators.required]);
   loggedInUserCode = '';
   loggedInUserName = '';
   visitCode;
@@ -58,7 +59,6 @@ export class UcmActionComponent {
       PlatformCode: [null, Validators.required],
       FormatCode: [null, Validators.required],
       ratio: [null],
-      UcnCode: ['AAAASSS', Validators.required],
       InsertedUserCode: [(this.loggedInUserCode || '').trim()]
     });
 
@@ -115,7 +115,7 @@ export class UcmActionComponent {
   }
 
   onCopyToClipboard() {
-    const ucnCode = this.ucnForm.get('UcnCode').value;
+    const ucnCode = this.generatedUcnCode.value;
 
     if (ucnCode) {
       const selBox = document.createElement('textarea');
@@ -134,16 +134,19 @@ export class UcmActionComponent {
   }
 
   generateUcnCode() {
-    this.ucnForm.get('UcnCode').setValue('');
+    // this.ucnForm.get('UcnCode').setValue('');
   }
 
   onUcnSave() {
-    if (this.ucnForm.valid) {
+    const payload = this.ucnForm.getRawValue();
+    const ucnCode = this.generatedUcnCode.value;
 
+    if (this.ucnForm.valid) {
+      console.log('PAYLOAD ::>', JSON.stringify({ ...payload, ...{ ucnCode } }));
     }
   }
 
   onUcnCancel() {
-
+    this.router.navigate(['ucn-digital'], { queryParamsHandling: "merge" });
   }
 }

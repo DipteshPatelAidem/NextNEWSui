@@ -424,3 +424,8 @@ ng-select {
 .form-control:focus{
     box-shadow: none !important;
 }
+
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 0.4rem !important;
+    font-size: 14px !important;
+}

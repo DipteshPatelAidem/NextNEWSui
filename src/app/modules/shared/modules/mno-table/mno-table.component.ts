@@ -206,5 +206,22 @@ export class MnoTableComponent implements OnInit {
     }, 10);
   }
 
+  onCopyToClipboard(row,copyText) {
+    console.log(copyText);
+    if (copyText) {
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = copyText;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+    }
+  }
+
 }
 
