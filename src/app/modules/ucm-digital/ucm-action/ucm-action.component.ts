@@ -233,9 +233,8 @@ export class UcmActionComponent {
     this._loaderService.ShowLoader();
     this.ucnService.saveUCN(payload).subscribe(res => {
       if (res) {
-        this.generatedUcnCode.setValue(res[0].UCNdigitalCode);
+        // this.generatedUcnCode.setValue(res[0].UCNdigitalCode);
         this.displayErrorSuccess('UCN submitted successfully.', true);
-
         setTimeout(() => { this.onUcnCancel() }, 2000);
       } else {
         this.displayErrorSuccess('Internal Server Error.');
