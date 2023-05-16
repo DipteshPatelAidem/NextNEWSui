@@ -21,5 +21,8 @@ export const API_URL = {
     getUcnPlatform : 'ucn/Getplatform',
     getUcnPlatformFormat : 'ucn/GetplatformFormat?platform=',
     getUcnDuration : 'ucn/GetDuration',
-    getUcnRatio : 'ucn/GetRatio'
+    getUcnRatio : 'ucn/GetRatio',
+    getAllUcn : 'UCN/GetUCNdigitalList?filter=1=1',
+    previewUCN : 'UCN/GetUCNDigital',
+    saveUCN : 'UCN/UCNDigitalInsert'
 };

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/loader.service';
+import { DSRService } from 'src/app/services/dsr.service';
 import { UCNService } from 'src/app/services/ucn.service';
 
 @Component({
@@ -13,12 +14,12 @@ import { UCNService } from 'src/app/services/ucn.service';
 })
 export class UcmActionComponent {
   ucnForm: FormGroup;
-  generatedUcnCode = new FormControl('HELLO', [Validators.required]);
+  generatedUcnCode = new FormControl('', [Validators.required]);
   loggedInUserCode = '';
   loggedInUserName = '';
   visitCode;
 
-
+  advertiserList = [];
   brandList = [];
   durationList = [];
   languageList = [];
@@ -32,6 +33,7 @@ export class UcmActionComponent {
     private router: Router,
     private route: ActivatedRoute,
     public ucnService: UCNService,
+    public dsrService: DSRService,
     private toastService: MessageService,
     private _loaderService: LoaderService) {
     this.loggedInUserCode = decodeURI(this.route.snapshot.queryParams.uCode);
@@ -42,6 +44,7 @@ export class UcmActionComponent {
 
   ngOnInit() {
     this.initForm();
+    this.getAdvertiser();
     this.getBrand();
     this.getLanguage();
     this.getPlatform()
@@ -52,14 +55,15 @@ export class UcmActionComponent {
   initForm() {
     this.ucnForm = this.fb.group({
       brandCode: [null, Validators.required],
-      caption: ['', Validators.required],
+      caption: ['', [Validators.required,Validators.minLength(4)]],
       DurationID: [null, Validators.required],
       LanguageID: [null, Validators.required],
 
       PlatformCode: [null, Validators.required],
       FormatCode: [null, Validators.required],
       ratio: [null],
-      InsertedUserCode: [(this.loggedInUserCode || '').trim()]
+      InsertedUserCode: [(this.loggedInUserCode || '').trim()],
+      CompanyID: [1]
     });
 
   }
@@ -68,6 +72,18 @@ export class UcmActionComponent {
     console.log('FORM CHANGE ::>');
     this.isCopy = false;
     this.generateUcnCode();
+  }
+
+  getAdvertiser() {
+    this.dsrService.getAdvertiser().subscribe(res => {
+      if (res) {
+        this.advertiserList = (res || []).filter(a => a.AdvertiserID == 'HUL');
+        this.ucnForm.get('CompanyID').setValue(this.advertiserList[0]?.AdvertiserCode);
+        this.ucnForm.get('CompanyID').disable();
+      }
+    }, err => {
+      console.log(err, 'getAdvertiser');
+    });
   }
 
   getBrand() {
@@ -96,9 +112,11 @@ export class UcmActionComponent {
 
   orFormatChange() {
     const pId = this.ucnForm.get('PlatformCode').value;
+    const platform = this.platformList.find(a => a.Platform == pId);
+
     this.formatList = [];
     if (pId) {
-      this.getPlatformFormat(pId);
+      this.getPlatformFormat(platform?.PlatformID);
     }
   }
 
@@ -134,16 +152,112 @@ export class UcmActionComponent {
   }
 
   generateUcnCode() {
-    // this.ucnForm.get('UcnCode').setValue('');
+    if (this.ucnForm.valid) {
+      this.onPreviewUcn();
+    }
+  }
+
+  onPreviewUcn() {
+    const formData = this.ucnForm.getRawValue();
+    console.log(JSON.stringify(formData), '>>>>>>>>>>>>>>');
+
+    if (!this.ucnForm.valid) {
+      this.ucnForm.markAllAsTouched();
+      return;
+    }
+
+    const payload = {
+      "UCNdigitalCode": "",
+      "brandname": formData.brandCode,
+      "caption": formData.caption,
+      "duration": formData.DurationID,
+      "language": formData.LanguageID,
+      "platform": formData.PlatformCode,
+      "format": formData.FormatCode,
+      "ratio": formData.ratio,
+      "InsertedUserCode": formData.InsertedUserCode
+    };
+
+    this._loaderService.ShowLoader();
+    this.ucnService.previewUCN(payload).subscribe(res => {
+      if (res && res.length) {
+        this.generatedUcnCode.setValue(res[0].UCNdigitalCode);
+        this.displayErrorSuccess('UCN generated successfully.', true);
+      } else {
+        this.displayErrorSuccess('Internal Server Error.');
+      }
+      this._loaderService.HideLoader();
+    }, err => {
+      this._loaderService.HideLoader();
+      this.displayErrorSuccess('Internal Server Error.');
+    });
   }
 
   onUcnSave() {
-    const payload = this.ucnForm.getRawValue();
+    if (!this.ucnForm.valid) {
+      this.ucnForm.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.ucnForm.getRawValue();
     const ucnCode = this.generatedUcnCode.value;
 
-    if (this.ucnForm.valid) {
-      console.log('PAYLOAD ::>', JSON.stringify({ ...payload, ...{ ucnCode } }));
+    const payload = {
+      "UCNid": null,
+      "UCNdigitalCode": ucnCode,
+
+      "BrandID": this.getIdFromName(formData.brandCode, 'Brand', 'BrandID', this.brandList),
+      //"brandname": formData.brandCode,
+
+      "caption": formData.caption,
+      "DurationID": this.getIdFromName(formData.DurationID, 'DurationCode', 'DurationID', this.durationList),
+      //"duration": formData.DurationID,
+
+      "LanguageID": this.getIdFromName(formData.LanguageID, 'Language', 'LanguageID', this.languageList),
+      //"language": formData.LanguageID,
+
+      "PlatformID": this.getIdFromName(formData.PlatformCode, 'Platform', 'PlatformID', this.platformList),
+      //"platform": formData.PlatformCode,
+
+      "FormatID": this.getIdFromName(formData.FormatCode, 'Format', 'FormatID', this.formatList),
+      //"format": formData.FormatCode,
+
+      "RatioID": this.getIdFromName(formData.ratio, 'Ratio', 'RatioID', this.ratioList),
+      //"ratio": formData.ratio,
+      "config": '',
+
+      "EnteredBy": formData.InsertedUserCode,
+      "UpdatedBy": null,
+      "CompanyID": 1, //formData.CompanyID
+    };
+
+    this._loaderService.ShowLoader();
+    this.ucnService.saveUCN(payload).subscribe(res => {
+      if (res) {
+        this.generatedUcnCode.setValue(res[0].UCNdigitalCode);
+        this.displayErrorSuccess('UCN submitted successfully.', true);
+
+        setTimeout(() => { this.onUcnCancel() }, 2000);
+      } else {
+        this.displayErrorSuccess('Internal Server Error.');
+      }
+      this._loaderService.HideLoader();
+    }, err => {
+      this._loaderService.HideLoader();
+      this.displayErrorSuccess('Internal Server Error.');
+    });
+  }
+
+  getIdFromName(name, matchKey, returnKey, list) {
+    const matchRecord = (list || []).find(a => a[matchKey] == name);
+    if (matchRecord) {
+      return matchRecord[returnKey];
     }
+    return null;
+  }
+
+  displayErrorSuccess(message, isSucess = false) {
+    this.toastService.add({ severity: isSucess ? 'success' : 'error', summary: isSucess ? 'Success' : 'Error', detail: message, life: 3000 });
   }
 
   onUcnCancel() {

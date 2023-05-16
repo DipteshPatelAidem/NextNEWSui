@@ -58,7 +58,7 @@
 
         </tr>
 
-        <tr *ngIf="columns && columns.length && columns[0] && columns[0].filterable">
+        <tr *ngIf="isFilterVisible()">
             <th *ngIf="checkboxSelection"></th>
             <th *ngIf="actionColumn && actionColumn.columns && actionColumn.columns.length"></th>
 

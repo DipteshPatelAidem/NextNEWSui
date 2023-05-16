@@ -15,7 +15,7 @@ export class UcmListComponent {
   columnList = [
     {
       header: 'Code',
-      field: 'ucnCode',
+      field: 'UCNdigitalCode',
       width: 160,
       copyIcon: true,
       styles: {
@@ -23,17 +23,18 @@ export class UcmListComponent {
         'gap': '6px'
       },
       filterable: false,
+      filterType: 'text',
     },
-    {
-      header: 'Created Date',
-      field: 'VisitDate',
-      width: 160,
-      dateFormat: 'DD-MM-YYYY',
-      filterable: false,
-    },
+    // {
+    //   header: 'Created Date',
+    //   field: 'VisitDate',
+    //   width: 160,
+    //   dateFormat: 'DD-MM-YYYY',
+    //   filterable: false,
+    // },
     {
       header: 'Brand',
-      field: 'ChannelName',
+      field: 'brandname',
       truncate: true,
       filterable: true,
       filterType: 'text',
@@ -45,24 +46,25 @@ export class UcmListComponent {
       header: 'Caption',
       field: 'caption',
       width: 160,
-      filterable: true,
+      truncate: true,
+      filterable: false,
       cellRenderer: (row) => `${row.caption}`,
       filterType: 'text',
       sortable: true,
     },
     {
       header: 'Duration',
-      field: 'Duration',
+      field: 'duration',
       truncate: true,
-      filterable: true,
+      filterable: false,
       filterType: 'text',
-      width: 360,
+      width: 160,
       // cellRenderer: (row) => (row.AdvertiserName || '').slice(0, 15),
       sortable: true,
     },
     {
       header: 'Language',
-      field: 'Language',
+      field: 'language',
       truncate: true,
       filterable: true,
       filterType: 'text',
@@ -72,7 +74,7 @@ export class UcmListComponent {
     },
     {
       header: 'Platform',
-      field: 'Platform',
+      field: 'platform',
       truncate: true,
       filterable: true,
       filterType: 'text',
@@ -80,13 +82,13 @@ export class UcmListComponent {
     },
     {
       header: 'Format',
-      field: 'Format',
+      field: 'format',
       width: 160,
       filterable: false,
     },
     {
       header: 'Ratio',
-      field: 'Ratio',
+      field: 'ratio',
       width: 160,
       filterable: false,
     }

@@ -28,15 +28,23 @@ export class UCNService {
         return this.http.get<any>(environment.baseURL + API_URL.getUcnPlatformFormat + pId).pipe(map(rsp => rsp));
     }
 
-    getDuration(){
+    getDuration() {
         return this.http.get<any>(environment.baseURL + API_URL.getUcnDuration).pipe(map(rsp => rsp));
     }
 
-    getRatio(){
+    getRatio() {
         return this.http.get<any>(environment.baseURL + API_URL.getUcnRatio).pipe(map(rsp => rsp));
     }
 
-    getAllUCN(uCode){
-        return this.http.get<any>(environment.baseURL + API_URL.getUcnRatio).pipe(map(rsp => rsp));
+    getAllUCN(uCode) {
+        return this.http.get<any>(environment.baseURL + API_URL.getAllUcn).pipe(map(rsp => rsp));
+    }
+
+    previewUCN(payload) {
+        return this.http.post<any>(environment.baseURL + API_URL.previewUCN, payload).pipe(map(rsp => rsp));
+    }
+
+    saveUCN(payload) {
+        return this.http.post<any>(environment.baseURL + API_URL.saveUCN, payload).pipe(map(rsp => rsp));
     }
 }

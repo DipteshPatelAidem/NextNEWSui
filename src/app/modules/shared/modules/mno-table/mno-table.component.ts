@@ -160,7 +160,7 @@ export class MnoTableComponent implements OnInit {
   }
 
   downloadExcel() {
-    this.zircaTable.exportFilename = `DSR_REPORT_${new Date().toISOString()}`;
+    this.zircaTable.exportFilename = `REPORT_${new Date().toISOString()}`;
     this.zircaTable.exportCSV();
   }
 
@@ -206,7 +206,11 @@ export class MnoTableComponent implements OnInit {
     }, 10);
   }
 
-  onCopyToClipboard(row,copyText) {
+  isFilterVisible() {
+    return (this.columns || []).some(a => a.filterable);
+  }
+
+  onCopyToClipboard(row, copyText) {
     console.log(copyText);
     if (copyText) {
       const selBox = document.createElement('textarea');
