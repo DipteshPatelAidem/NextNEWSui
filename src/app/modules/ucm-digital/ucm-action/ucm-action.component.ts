@@ -33,7 +33,6 @@ export class UcmActionComponent {
     private router: Router,
     private route: ActivatedRoute,
     public ucnService: UCNService,
-    public dsrService: DSRService,
     private toastService: MessageService,
     private _loaderService: LoaderService) {
     this.loggedInUserCode = decodeURI(this.route.snapshot.queryParams.uCode);
@@ -75,10 +74,10 @@ export class UcmActionComponent {
   }
 
   getAdvertiser() {
-    this.dsrService.getAdvertiser().subscribe(res => {
+    this.ucnService.getAdvertiser().subscribe(res => {
       if (res) {
-        this.advertiserList = (res || []).filter(a => a.AdvertiserID == 'HUL');
-        this.ucnForm.get('CompanyID').setValue(this.advertiserList[0]?.AdvertiserCode);
+        this.advertiserList = (res || []);
+        this.ucnForm.get('CompanyID').setValue(this.advertiserList[0]?.CompanyID);
         this.ucnForm.get('CompanyID').disable();
       }
     }, err => {

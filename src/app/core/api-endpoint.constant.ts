@@ -16,6 +16,7 @@ export const API_URL = {
     postContactPerson: 'ContactPerson/ContactPersonPost',
 
     // UCN
+    getUcnAdvertiser : 'UCN/GetCompany',
     getUcnBrand : 'ucn/GetBrand',
     getUcnLanguage : 'ucn/GetLanguage',
     getUcnPlatform : 'ucn/Getplatform',
