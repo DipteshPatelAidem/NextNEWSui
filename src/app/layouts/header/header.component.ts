@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common'
 import { ActivatedRoute, Router } from '@angular/router';
 import { sortBy } from 'lodash';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   loggedInUserName = '';
   greetLabel = '';
   logo = 'A';
+  homeRedirectLink = environment.homeRedirectURL || 'https://mis.aidem.in/aidem/MenuForm.aspx';
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private route: ActivatedRoute, private router: Router) {

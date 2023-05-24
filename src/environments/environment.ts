@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseURL: 'https://mis.aidem.in/nextnewsAPITest/api/'
+  baseURL: 'https://mis.aidem.in/nextnewsAPITest/api/',
+  homeRedirectURL : 'https://mis.aidem.in/aidemTest/MenuForm.aspx'
  // baseURL: 'http://localhost:58673/api/'
 };
 

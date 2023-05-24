@@ -115,7 +115,7 @@
                                                 [virtualScroll]="true" [multiple]="false"
                                                 [ngClass]="{'input-error': ucnForm?.get('PlatformCode').touched && ucnForm?.get('PlatformCode').errors?.required}"
                                                 formControlName="PlatformCode" placeholder="Please select"
-                                                (change)="orFormatChange();onFormValueChange()">
+                                                (change)="onFormatChange();onFormValueChange();onPlatformFormatChange();">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@
                                             [multiple]="false"
                                             [ngClass]="{'input-error': ucnForm?.get('FormatCode').touched && ucnForm?.get('FormatCode').errors?.required}"
                                             formControlName="FormatCode" placeholder="Please select"
-                                            (change)="onFormValueChange()">
+                                            (change)="onFormValueChange();onPlatformFormatChange();">
                                         </ng-select>
                                     </div>
                                 </div>

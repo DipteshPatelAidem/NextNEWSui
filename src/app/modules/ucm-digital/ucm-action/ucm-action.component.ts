@@ -48,13 +48,12 @@ export class UcmActionComponent {
     this.getLanguage();
     this.getPlatform()
     this.getDuration()
-    this.getRatio()
   }
 
   initForm() {
     this.ucnForm = this.fb.group({
       brandCode: [null, Validators.required],
-      caption: ['', [Validators.required,Validators.minLength(4)]],
+      caption: ['', [Validators.required, Validators.minLength(4)]],
       DurationID: [null, Validators.required],
       LanguageID: [null, Validators.required],
 
@@ -109,7 +108,7 @@ export class UcmActionComponent {
     });
   }
 
-  orFormatChange() {
+  onFormatChange() {
     const pId = this.ucnForm.get('PlatformCode').value;
     const platform = this.platformList.find(a => a.Platform == pId);
 
@@ -119,15 +118,25 @@ export class UcmActionComponent {
     }
   }
 
+  onPlatformFormatChange() {
+    this.ratioList = [];
+    const pId = this.ucnForm.get('PlatformCode').value;
+    const formatCode = this.ucnForm.get('FormatCode').value;
+    if (pId && formatCode) {
+      this.getRatio(pId, formatCode);
+    }
+
+  }
+
   getDuration() {
     this.ucnService.getDuration().subscribe(res => {
       this.durationList = res || [];
     });
   }
 
-  getRatio() {
+  getRatio(pId, formatCode) {
     this.ucnService.getRatio().subscribe(res => {
-      this.ratioList = res || [];
+      this.ratioList = (res || []).filter(a => a.Platform == pId && a.Format == formatCode);
     });
   }
 
@@ -158,8 +167,6 @@ export class UcmActionComponent {
 
   onPreviewUcn() {
     const formData = this.ucnForm.getRawValue();
-    console.log(JSON.stringify(formData), '>>>>>>>>>>>>>>');
-
     if (!this.ucnForm.valid) {
       this.ucnForm.markAllAsTouched();
       return;

@@ -7,6 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { MnoDataTableModule } from '../shared/modules/mno-table/mno-table.module';
 import { SharedModule } from '../shared/shared.module';
+import { UcnMasterComponent } from './ucn-master/ucn-master.component';
 
 const routes: Routes = [
   {
@@ -20,14 +21,19 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: UcmActionComponent
-  }
+  },
+  {
+    path: 'master',
+    component: UcnMasterComponent
+  },
 ];
 
 
 @NgModule({
   declarations: [
     UcmActionComponent,
-    UcmListComponent
+    UcmListComponent,
+    UcnMasterComponent
   ],
   imports: [
     CommonModule,
