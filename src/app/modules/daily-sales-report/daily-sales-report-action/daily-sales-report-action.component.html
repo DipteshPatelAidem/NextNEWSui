@@ -162,9 +162,19 @@
                                             <span class="form-text text-muted ">&nbsp;</span>
                                         </div>
                                     </div>
-                                     --> 
+                                     -->
                                     <div class="form-group row">
-                                        <label class="d-block col-form-label">Brand</label>
+                                        <label class="d-block col-form-label">Brand
+                                            <span class="cursor-pointer" title="Click to view info" (click)="onBrandInfoClick()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path
+                                                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                </svg>
+                                            </span>
+                                        </label>
                                         <div class="col-lg-12">
                                             <ng-select [items]="brandList" bindLabel="BrandName" bindValue="BrandCode"
                                                 [virtualScroll]="true" [multiple]="true"
@@ -280,7 +290,7 @@
     </div>
 </div>
 
-<p-dialog [header]="'Add new Person'" [(visible)]="openNewPersonAddModal" [modal]="true" [style]="{width: '30vw'}"
+<p-dialog [header]="'Add new Person'" [(visible)]="openNewPersonAddModal" [modal]="true" [style]="{width: '36vw'}"
     [draggable]="false" [resizable]="false">
 
     <section class="section persone_add" id="bookingDetails">
@@ -294,15 +304,35 @@
                                 <label class="d-block col-form-label">Person Name<span
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
+                                    <!-- <div class="input-group-prepend">
                                         <select class="title-dropdown" formControlName="intTitlePersonCode">
                                             <option *ngFor="let a of titlePersonCode" value="{{a.GenericID}}">
                                                 {{a.GenericName}}</option>
                                         </select>
-                                    </div>
+                                    </div> -->
                                     <input type="text" class="form-control" placeholder="Enter Person Name"
                                         [ngClass]="{'input-error':newPersonForm?.get('PersonName').touched && newPersonForm?.get('PersonName').errors?.required}"
                                         formControlName="PersonName">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <label class="d-block col-form-label">Email<span
+                                        class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="email" class="form-control" placeholder="Enter Email"
+                                        [ngClass]="{'input-error':newPersonForm?.get('Email').touched && newPersonForm?.get('Email').errors?.required}"
+                                        formControlName="Email">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <label class="d-block col-form-label">Phone<span
+                                        class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="Enter Phone"
+                                        [ngClass]="{'input-error':newPersonForm?.get('Phone').touched && newPersonForm?.get('Phone').errors?.required}"
+                                        formControlName="Phone">
                                 </div>
                             </div>
 

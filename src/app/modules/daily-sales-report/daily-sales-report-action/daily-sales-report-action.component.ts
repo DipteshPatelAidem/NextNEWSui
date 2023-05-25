@@ -8,6 +8,7 @@ import { DropDownConfig } from './dsr-dropdown-config';
 import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/loader.service';
 import { cloneDeep } from 'lodash';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-daily-sales-report-action',
@@ -98,6 +99,8 @@ export class DailySalesReportActionComponent {
     this.newPersonForm = this.fb.group({
       PersonCode: [''],
       PersonName: ['', Validators.required],
+      Email : [''],
+      Phone : [''],
       intContactTypeCode: ['21'],
       intDesignationCode: [null],
       intTitlePersonCode: [''],
@@ -325,6 +328,11 @@ export class DailySalesReportActionComponent {
 
   onDsrCancel() {
     this.router.navigate(['daily-sales-report'], { queryParamsHandling: "merge" });
+  }
+
+  onBrandInfoClick() {
+    const url = environment.webURL + `/NewsUAT.aspx?Caller=/DSRNew?Mode=BrandAdd&Header=Brand&uCode=${this.loggedInUserCode}&uName=${this.loggedInUserName}`;
+    window.open(url, "_blank");
   }
 
 }

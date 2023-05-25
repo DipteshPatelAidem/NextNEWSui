@@ -109,10 +109,11 @@ export class UcmActionComponent {
   }
 
   onFormatChange() {
+    this.ucnForm.get('FormatCode').setValue(null);
     const pId = this.ucnForm.get('PlatformCode').value;
     const platform = this.platformList.find(a => a.Platform == pId);
-
     this.formatList = [];
+
     if (pId) {
       this.getPlatformFormat(platform?.PlatformID);
     }
