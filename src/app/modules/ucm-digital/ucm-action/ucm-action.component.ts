@@ -52,7 +52,7 @@ export class UcmActionComponent {
   initForm() {
     this.ucnForm = this.fb.group({
       brandCode: [null, Validators.required],
-      caption: ['', [Validators.required, Validators.minLength(4)]],
+      caption: ['', [Validators.required, Validators.minLength(5)]],
       DurationID: [null, Validators.required],
       LanguageID: [null, Validators.required],
 
