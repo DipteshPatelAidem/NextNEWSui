@@ -238,7 +238,7 @@ export class UcmActionComponent {
 
       "EnteredBy": formData.InsertedUserCode,
       "UpdatedBy": null,
-      "CompanyID": 1, //formData.CompanyID
+      "CompanyID": formData.CompanyID
     };
 
     this._loaderService.ShowLoader();
