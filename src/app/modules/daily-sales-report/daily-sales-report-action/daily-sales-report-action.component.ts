@@ -99,8 +99,8 @@ export class DailySalesReportActionComponent {
     this.newPersonForm = this.fb.group({
       PersonCode: [''],
       PersonName: ['', Validators.required],
-      Email : [''],
-      Phone : [''],
+      ContactNumber : [''],
+      eMail : [''],
       intContactTypeCode: ['21'],
       intDesignationCode: [null],
       intTitlePersonCode: [''],

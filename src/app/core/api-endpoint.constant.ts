@@ -17,7 +17,7 @@ export const API_URL = {
 
     // UCN
     getUcnAdvertiser : 'UCN/GetCompany',
-    getUcnBrand : 'ucn/GetBrand',
+    getUcnBrand : 'ucn/GetBrand?Client=',
     getUcnLanguage : 'ucn/GetLanguage',
     getUcnPlatform : 'ucn/Getplatform',
     getUcnPlatformFormat : 'ucn/GetplatformFormat?platform=',

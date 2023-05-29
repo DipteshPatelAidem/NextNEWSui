@@ -186,4 +186,9 @@ export class UcnMasterComponent {
     this.displayVersionModal = true;
   }
 
+
+  postMaster(){
+    console.log(JSON.stringify(this.ucnMasterForm.getRawValue()));
+  }
+
 }

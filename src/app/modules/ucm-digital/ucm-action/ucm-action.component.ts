@@ -41,9 +41,9 @@ export class UcmActionComponent {
     console.log(this.loggedInUserCode, 'this.loggedInUserCode', this.visitCode);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.initForm();
-    this.getAdvertiser();
+    await this.getAdvertiser();
     this.getBrand();
     this.getLanguage();
     this.getPlatform()
@@ -77,7 +77,8 @@ export class UcmActionComponent {
       if (res) {
         this.advertiserList = (res || []);
         this.ucnForm.get('CompanyID').setValue(this.advertiserList[0]?.CompanyID);
-        this.ucnForm.get('CompanyID').disable();
+       // this.ucnForm.get('CompanyID').disable();
+        console.log('GET ADVERTISER :>');
       }
     }, err => {
       console.log(err, 'getAdvertiser');
@@ -85,8 +86,10 @@ export class UcmActionComponent {
   }
 
   getBrand() {
-    this.ucnService.getBrand().subscribe(res => {
+    const advertiser = this.ucnForm.get('CompanyID').value;
+    this.ucnService.getBrand(advertiser).subscribe(res => {
       this.brandList = res || [];
+    console.log('GET BRAND :>');
     });
   }
 

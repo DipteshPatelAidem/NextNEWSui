@@ -16,8 +16,8 @@ export class UCNService {
         return this.http.get<any>(environment.baseURL + API_URL.getUcnAdvertiser).pipe(map(rsp => rsp));
     }
 
-    getBrand() {
-        return this.http.get<any>(environment.baseURL + API_URL.getUcnBrand).pipe(map(rsp => rsp));
+    getBrand(advertiser) {
+        return this.http.get<any>(environment.baseURL + API_URL.getUcnBrand + advertiser).pipe(map(rsp => rsp));
     }
 
     getLanguage() {
