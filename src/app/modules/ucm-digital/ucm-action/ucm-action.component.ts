@@ -43,8 +43,7 @@ export class UcmActionComponent {
 
   async ngOnInit() {
     this.initForm();
-    await this.getAdvertiser();
-    this.getBrand();
+    this.getAdvertiser();
     this.getLanguage();
     this.getPlatform()
     this.getDuration()
@@ -77,8 +76,9 @@ export class UcmActionComponent {
       if (res) {
         this.advertiserList = (res || []);
         this.ucnForm.get('CompanyID').setValue(this.advertiserList[0]?.CompanyID);
-       // this.ucnForm.get('CompanyID').disable();
+        // this.ucnForm.get('CompanyID').disable();
         console.log('GET ADVERTISER :>');
+        this.getBrand();
       }
     }, err => {
       console.log(err, 'getAdvertiser');
@@ -89,7 +89,7 @@ export class UcmActionComponent {
     const advertiser = this.ucnForm.get('CompanyID').value;
     this.ucnService.getBrand(advertiser).subscribe(res => {
       this.brandList = res || [];
-    console.log('GET BRAND :>');
+      console.log('GET BRAND :>');
     });
   }
 
