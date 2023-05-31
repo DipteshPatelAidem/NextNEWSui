@@ -103,7 +103,11 @@ export class UcnMasterComponent {
           }
         }).value();
 
-        this.UCNVersionList = (result || []);
+        this.UCNVersionList = (result || []).sort(function compare(a, b) {
+          const dateA:any = new Date(a.EnteredOn);
+          const dateB:any = new Date(b.EnteredOn);
+          return dateB - dateA;
+        });
       }
     }, err => {
       console.log(err, 'getAllUCNVersion');
