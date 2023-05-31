@@ -182,8 +182,6 @@ export class UcnMasterComponent {
     const duplicateKeys = (formValue.masterConfigs || []).map(a => a.key);
     const checkDuplicate = duplicateKeys.filter((item, index) => duplicateKeys.indexOf(item) !== index)
 
-    console.log(checkDuplicate);
-
     if (checkDuplicate.length) {
       this.displayError('Duplicate key not allowed.');
       return;
@@ -193,8 +191,6 @@ export class UcnMasterComponent {
       item.index = (index + 1);
       item.MasterConfigHeaderID = (MasterConfigHeaderID || 0) + 1;
     });
-
-    return;
 
     const payload = {
       CompanyID: formValue.advertiser,
