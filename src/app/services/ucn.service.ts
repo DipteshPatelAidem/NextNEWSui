@@ -51,4 +51,13 @@ export class UCNService {
     saveUCN(payload) {
         return this.http.post<any>(environment.baseURL + API_URL.saveUCN, payload).pipe(map(rsp => rsp));
     }
+
+    getAllUCNVersion(companyID) {
+        return this.http.get<any>(environment.baseURL + API_URL.getUcnVersionList + companyID).pipe(map(rsp => rsp));
+    }
+
+    postUCNMasterConfig(payload) {
+        return this.http.post<any>(environment.baseURL + API_URL.saveUCNMaster, payload).pipe(map(rsp => rsp));
+    }
+
 }

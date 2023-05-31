@@ -25,5 +25,7 @@ export const API_URL = {
     getUcnRatio : 'ucn/GetPlatformFormatRatio',
     getAllUcn : 'UCN/GetUCNdigitalList?filter=1=1',
     previewUCN : 'UCN/GetUCNDigital',
-    saveUCN : 'UCN/UCNDigitalInsert'
+    saveUCN : 'UCN/UCNDigitalInsert',
+    getUcnVersionList : 'UCN/GetUCNMasterConfigHistory?filter=companyID=',
+    saveUCNMaster : 'UCN/UCNDigitalMasterConfigPost',
 };

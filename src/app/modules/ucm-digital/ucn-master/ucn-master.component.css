@@ -35,3 +35,6 @@ th {
     background: darkGray;
     position: absolute;
 }
+.company-dropdown{
+    min-width: 200px;
+}
