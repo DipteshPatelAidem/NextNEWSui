@@ -36,7 +36,7 @@ export class DSRService {
     }
 
     getPurpose() {
-        return this.http.get<any>(environment.baseURL + environment.baseURL + API_URL.getPurpose).pipe(map(rsp => rsp));
+        return this.http.get<any>(environment.baseURL + API_URL.getPurpose).pipe(map(rsp => rsp));
     }
 
     getMeetingType() {
